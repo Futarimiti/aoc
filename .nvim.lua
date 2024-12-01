@@ -4,7 +4,7 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     vim.lsp.start {
       name = 'hls',
-      cmd = { 'haskell-language-server-wrapper' },
+      cmd = { 'haskell-language-server-wrapper', '--lsp' },
       root_dir = vim.fs.root(0, { 'stack.yaml' }),
     }
   end,

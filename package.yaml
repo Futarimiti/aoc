@@ -68,6 +68,7 @@ ghc-options:
   - -Wpartial-fields
   - -Wredundant-constraints
   - -Wmonomorphism-restriction
+  - -Wno-unused-imports
 library:
   source-dirs:
     - src

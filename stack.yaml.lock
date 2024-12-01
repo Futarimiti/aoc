@@ -17,7 +17,7 @@ packages:
     url: https://github.com/Futarimiti/dbg/archive/280930258b930128461a54beed51274b5c5d0bc7.tar.gz
 snapshots:
 - completed:
-    sha256: ed3559867f747c898e01705b0b953dfca768a51c002625b6971ce708b2498fa1
-    size: 679067
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2024/11/30.yaml
-  original: nightly-2024-11-30
+    sha256: 08bd13ce621b41a8f5e51456b38d5b46d7783ce114a50ab604d6bbab0d002146
+    size: 720271
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/22/43.yaml
+  original: lts-22.43
