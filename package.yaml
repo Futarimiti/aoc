@@ -16,6 +16,8 @@ dependencies:
   - monad-logger
   - dbg
   - mtl
+  - transformers
+  - exceptions
   - lens
   - typed-process
   - containers
@@ -56,6 +58,8 @@ default-extensions:
   - InstanceSigs
   - UnicodeSyntax
   - PartialTypeSignatures
+  - TypeOperators
+  - DataKinds
 data-dir: resources/
 data-files:
   - input.txt
