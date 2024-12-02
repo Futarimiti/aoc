@@ -54,6 +54,8 @@ default-extensions:
   - FunctionalDependencies
   - StandaloneKindSignatures
   - InstanceSigs
+  - UnicodeSyntax
+  - PartialTypeSignatures
 data-dir: resources/
 data-files:
   - input.txt

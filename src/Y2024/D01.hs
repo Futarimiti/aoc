@@ -1,22 +1,20 @@
-{-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
 module Y2024.D01 where
 
 import Common
-import Data.List (sort, genericLength)
+import Data.List (sort, transpose)
+import Data.Map ((!))
 
-getLists :: String -> ([Integer], [Integer])
-getLists = unzip . map ((\[a,b] -> (a,b)) . map read . words) . lines
+getLists :: String -> ([Int], [Int])
+getLists = tuple2 . transpose . map (map read . words) . lines
+  where tuple2 [xs, ys] = (xs, ys)
 
-totalDist :: String -> Integer
-totalDist contents = sum $ zipWith diff (sort xs) (sort ys)
-  where
-    diff x y = abs $ x - y
-    (xs, ys) = getLists contents
+totalDist :: [Int] -> [Int] -> Int
+totalDist xs ys = sum $ (zipWith diff `on` sort) xs ys
+  where diff x y = abs $ x - y
 
-similarity :: String -> Integer
-similarity contents = sum $ calcSim <$> xs
-  where
-     (xs, ys) = getLists contents
-     calcSim x = x * occurence
-       where occurence = genericLength $ filter (== x) ys
+similarity :: [Int] -> [Int] -> Int
+similarity xs ys = sum $ calcSim <$> xs
+  where calcSim x = x * occurence
+          where occurence = counts ys ! x
