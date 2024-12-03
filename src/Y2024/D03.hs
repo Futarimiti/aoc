@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-unused-do-bind #-}
 
-module Y2024.D03 where
+module Y2024.D03 (execute, FSM (..)) where
 
 import Common
 import MTL
@@ -29,27 +29,22 @@ mul = do
     int :: ReadP Int
     int = read <$> some (satisfy isDigit)
 
--- | do, don't instructions
-do', don't :: ReadP ()
-do' = void $ string "do()"
-don't = void $ string "don't()"
-
--- | Bool indicates wether to recognise @do@ and @don't@ instructions
+-- | Bool to indicate wether to recognise @do@ and @don't@ instructions
 --
 -- Use @False@ for part 1, @True@ for part 2
 execute :: (MonadState FSM m, MonadError () m) => Bool -> m ()
-execute recogniseDo = forever $ do
+execute recogniseDo's = forever $ do
   myMemory <- gets (view memory)
-  case myMemory of
-    [] -> exit ()
-    'd':_ | recogniseDo, (((), remain):_) <- readP_to_S don't myMemory -> do
-      enabled .= False
-      memory .= remain
-          | recogniseDo, (((), remain):_) <- readP_to_S do' myMemory -> do
-      enabled .= True
-      memory .= remain
-    'm':_ | (((x, y), remain):_) <- readP_to_S mul myMemory -> do
-      isEnabled <- gets (view enabled)
-      when isEnabled $ acc += x * y
-      memory .= remain
-    _ -> memory %= drop 1
+  when (null myMemory) $ exit ()
+  isEnabled <- gets (view enabled)
+  if | recogniseDo's, "do()" `isPrefixOf` myMemory -> do
+       enabled .= True
+       memory %= drop 4
+     | not isEnabled -> memory %= drop 1
+     | recogniseDo's, "don't()" `isPrefixOf` myMemory -> do
+       enabled .= False
+       memory %= drop 7
+     | (((x, y), remain):_) <- readP_to_S mul myMemory -> do
+       acc += x * y
+       memory .= remain
+     | otherwise -> memory %= drop 1
