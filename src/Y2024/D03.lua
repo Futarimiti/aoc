@@ -1,3 +1,5 @@
+-- NOTE run in neovim with `:source`
+
 --- @param input string
 --- @return integer
 local mul_res = function(input)
