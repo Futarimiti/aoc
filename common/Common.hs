@@ -9,6 +9,8 @@ module Common
   , module Control.Lens
   , module Control.Monad.IO.Class
   , module Data.Foldable
+  , module Data.Maybe
+  , module Witherable
   ) where
 
 import Control.Monad.IO.Class
@@ -23,6 +25,8 @@ import Control.Applicative
 import Control.Lens
 import Data.Foldable
 import Data.Ord
+import Data.Maybe hiding (catMaybes, fromMaybe, mapMaybe)
+import Witherable
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a

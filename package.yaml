@@ -28,6 +28,7 @@ dependencies:
   - string-interpolate
   - filepath
   - directory
+  - witherable
 default-extensions:
   - ApplicativeDo
   - TemplateHaskell

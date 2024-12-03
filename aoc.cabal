@@ -141,5 +141,6 @@ library
     , transformers
     , typed-process
     , vector
+    , witherable
     , zippers
   default-language: Haskell2010
