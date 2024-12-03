@@ -17,11 +17,16 @@ import Paths_aoc
 import Data.Function
 import Data.Map (Map)
 import qualified Data.Map as Map
-import Data.List (genericLength)
+import Data.List (group, sort)
 import Control.Monad
 import Control.Applicative
 import Control.Lens
 import Data.Foldable
+import Data.Ord
+
+-- -- | Mode value, in the statistical sense
+-- mode :: Ord a => [a] -> a
+-- mode = head . maximumBy (comparing length) . group . sort
 
 -- | Gets the AoC input file.
 input :: (IsString str, MonadIO m) => m str

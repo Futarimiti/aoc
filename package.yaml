@@ -60,6 +60,7 @@ default-extensions:
   - PartialTypeSignatures
   - TypeOperators
   - DataKinds
+  - BinaryLiterals
 data-dir: resources/
 data-files:
   - input.txt
