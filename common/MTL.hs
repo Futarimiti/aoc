@@ -10,8 +10,8 @@ module MTL
   , module Control.Monad.RWS
   , module Control.Monad.Except
   , module Control.Monad.Catch
+  , exit
   ) where
-
 
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.Maybe
@@ -24,3 +24,6 @@ import Control.Monad.RWS
 import Control.Monad.Except
 import Control.Monad.Catch
 
+-- | Early exit
+exit :: MonadError e m => e -> m a
+exit = throwError

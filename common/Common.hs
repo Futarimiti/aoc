@@ -25,7 +25,7 @@ import Control.Applicative
 import Control.Lens
 import Data.Foldable
 import Data.Ord
-import Data.Maybe hiding (catMaybes, fromMaybe, mapMaybe)
+import Data.Maybe hiding (catMaybes, mapMaybe)
 import Witherable
 
 -- -- | Mode value, in the statistical sense
