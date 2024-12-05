@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
+
 module Common
   ( input
   , counts
@@ -6,6 +8,7 @@ module Common
   , module Data.Function
   , module Control.Monad
   , module Control.Applicative
+  , module Data.Functor
   , module Control.Lens
   , module Control.Monad.IO.Class
   , module Data.Foldable
@@ -16,8 +19,11 @@ module Common
   , allM
   , anyM
   , every
+  , i
+  , mid
   ) where
 
+import Data.Functor
 import Control.Monad.IO.Class
 import Data.String
 import Paths_aoc
@@ -32,6 +38,7 @@ import Data.Foldable
 import Data.Ord
 import Data.Maybe hiding (catMaybes, mapMaybe)
 import Witherable hiding (filter)
+import Data.String.Interpolate
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
@@ -75,3 +82,12 @@ every n xs = mapMaybe (take' n) (tails xs)
         take' _ []     = Nothing
         take' n (x:xs) = (x:) <$> take' (n - 1) xs
 
+-- | Find the element in the middle of a list.
+-- If the list contains even number of elements, return @Nothing@.
+-- Hangs for infinite list
+mid :: [a] -> Maybe a
+mid = join go
+  where go _ []            = Nothing
+        go (x:_) [_]       = Just x
+        go (_:xs) (_:_:ys) = go xs ys
+        go _ _             = Nothing

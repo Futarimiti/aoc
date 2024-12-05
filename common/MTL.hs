@@ -10,6 +10,7 @@ module MTL
   , module Control.Monad.RWS
   , module Control.Monad.Except
   , module Control.Monad.Catch
+  , module Control.Monad.Logger
   , exit
   ) where
 
@@ -23,6 +24,7 @@ import Control.Monad.Reader
 import Control.Monad.RWS
 import Control.Monad.Except
 import Control.Monad.Catch
+import Control.Monad.Logger
 
 -- | Early exit
 exit :: MonadError e m => e -> m a
