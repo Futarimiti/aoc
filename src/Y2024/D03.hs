@@ -34,9 +34,9 @@ mul = do
 -- Use @False@ for part 1, @True@ for part 2
 execute :: (MonadState FSM m, MonadError () m) => Bool -> m ()
 execute recogniseDo's = forever $ do
-  myMemory <- gets (view memory)
+  myMemory <- use memory
   when (null myMemory) $ exit ()
-  isEnabled <- gets (view enabled)
+  isEnabled <- use enabled
   if | recogniseDo's, "do()" `isPrefixOf` myMemory -> do
        enabled .= True
        memory %= drop 4

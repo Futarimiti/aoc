@@ -4,10 +4,15 @@ module Y2021.D02 (execLine, execLine') where
 
 import Common
 import MTL
-import Pos
+import Linear.V2
+
+forward, upward, downward :: (R2 v2, MonadState (v2 n) m, Num n) => n -> m ()
+forward = (_x +=)
+upward = (_y +=)
+downward = (_y -=)
 
 -- part1
-execLine :: (MonadState (Pos2 Int) m) => String -> m ()
+execLine :: (MonadState (V2 Int) m) => String -> m ()
 execLine (words -> [direction, read -> steps]) = move steps
   where move = case direction of
                  "forward" -> forward
@@ -16,23 +21,23 @@ execLine (words -> [direction, read -> steps]) = move steps
 
 -- part2
 
-data Submarine = Submarine
-  { _pos :: Pos2 Int
-  , _aim :: Int
+data Submarine a = Submarine
+  { _pos :: V2 a
+  , _aim :: a
   } deriving (Show)
 
 makeLenses ''Submarine
 
-instance HasX Submarine Int where
-  x = pos . x
+instance R1 Submarine where
+  _x = pos . _x
 
-instance HasY Submarine Int where
-  y = pos . y
+instance R2 Submarine where
+  _xy = pos . _xy
 
-execLine' :: (MonadState Submarine m) => String -> m ()
+execLine' :: (MonadState (Submarine n) m, Num n, Read n) => String -> m ()
 execLine' (words -> [direction, read -> steps]) = case direction of
   "forward" -> do
-    currAim <- gets (view aim)
+    currAim <- use aim
     forward steps
     downward $ steps * currAim
   "up"      -> aim -= steps

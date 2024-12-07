@@ -57,7 +57,9 @@ library
       Y2024.D03
       Y2024.D04
       Y2024.D05
-      Y2024.D06
+      Y2024.D06.Common
+      Y2024.D06.Part1
+      Y2024.D06.Part2
       Y2024.D07
       Y2024.D08
       Y2024.D09
@@ -77,11 +79,11 @@ library
       Y2024.D23
       Y2024.D24
       Y2024.D25
+      Board
       Common
       L
       MTL
       NE
-      Pos
       Read
       Generate
   other-modules:
@@ -134,7 +136,10 @@ library
     , directory
     , exceptions
     , filepath
+    , hashable
     , lens
+    , linear
+    , matrix
     , monad-logger
     , mtl
     , pretty-show
@@ -143,6 +148,7 @@ library
     , text
     , transformers
     , typed-process
+    , unordered-containers
     , vector
     , witherable
     , zippers

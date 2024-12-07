@@ -29,6 +29,10 @@ dependencies:
   - filepath
   - directory
   - witherable
+  - linear
+  - matrix
+  - unordered-containers
+  - hashable
 default-extensions:
   - ApplicativeDo
   - TemplateHaskell

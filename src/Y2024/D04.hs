@@ -3,7 +3,6 @@ module Y2024.D04 (search, searchX) where
 
 import Common
 import MTL
-import Pos
 import Data.List.NonEmpty (NonEmpty (..))
 import Data.List ( transpose, tails, isPrefixOf )
 
