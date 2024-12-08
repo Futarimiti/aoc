@@ -33,6 +33,7 @@ dependencies:
   - matrix
   - unordered-containers
   - hashable
+  - comonad
 default-extensions:
   - ApplicativeDo
   - TemplateHaskell

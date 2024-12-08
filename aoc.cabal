@@ -131,6 +131,7 @@ library
   build-depends:
       base >=4.7 && <5
     , bytestring
+    , comonad
     , containers
     , dbg
     , directory
