@@ -128,6 +128,7 @@ library
       DataKinds
       BinaryLiterals
       TransformListComp
+      BlockArguments
   ghc-options: -O2 -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wmonomorphism-restriction -Wno-unused-imports
   build-depends:
       base >=4.7 && <5

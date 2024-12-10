@@ -68,6 +68,7 @@ default-extensions:
   - DataKinds
   - BinaryLiterals
   - TransformListComp
+  - BlockArguments
 data-dir: resources/
 data-files:
   - input.txt

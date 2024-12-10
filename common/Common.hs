@@ -13,6 +13,7 @@ module Common
   , module Control.Monad.IO.Class
   , module Data.Foldable
   , module Data.Maybe
+  , module Data.Traversable
   , module Witherable
   , andM
   , orM
@@ -39,6 +40,7 @@ import Data.Ord
 import Data.Maybe hiding (catMaybes, mapMaybe)
 import Witherable hiding (filter)
 import Data.String.Interpolate
+import Data.Traversable
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
