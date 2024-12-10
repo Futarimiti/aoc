@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-compat-unqualified-imports #-}
+
 -- | @import qualified L@
 module L
   ( module Data.List

@@ -1,4 +1,6 @@
 {-# LANGUAGE NoOverloadedLists #-}
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
+
 module Y2024.D02 where
 
 import Common

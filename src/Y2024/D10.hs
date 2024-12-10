@@ -81,7 +81,7 @@ part1 = do
 
 
 
--- | score = # of 9's this loc lead to
+-- | score = # of 9's this pos leads to
 score' :: forall m. (MonadReader Topography m, Memoized (V2 Int) Nat m)
       => V2 Int  -- | point standing on
       -> m Nat   -- | score

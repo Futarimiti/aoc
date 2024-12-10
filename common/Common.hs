@@ -15,6 +15,8 @@ module Common
   , module Data.Maybe
   , module Data.Traversable
   , module Witherable
+  , module GHC.TypeLits
+  , module Numeric.Natural
   , andM
   , orM
   , allM
@@ -41,6 +43,8 @@ import Data.Maybe hiding (catMaybes, mapMaybe)
 import Witherable hiding (filter)
 import Data.String.Interpolate
 import Data.Traversable
+import Numeric.Natural
+import GHC.TypeLits
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
