@@ -67,6 +67,7 @@ default-extensions:
   - TypeOperators
   - DataKinds
   - BinaryLiterals
+  - TransformListComp
 data-dir: resources/
 data-files:
   - input.txt
