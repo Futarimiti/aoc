@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE DefaultSignatures #-}
 
 -- | My custom prelude
 module Common
@@ -53,18 +54,16 @@ import Data.Kind
 
 type AOC :: Nat -> Nat -> Constraint
 class AOC year day where
-  type Part1Input year day
-  type Part1Output year day
-  type instance Part1Output _ _ = Integer
-  parse1 :: [String] -> Part1Input year day
-  part1 :: Part1Input year day -> Part1Output year day
+  type Input year day
+  parse :: [String] -> Input year day
 
-  type Part2Input year day
-  type instance Part2Input year day = Part1Input year day
-  type Part2Output year day
-  type instance Part2Output _ _ = Integer
-  parse2 :: [String] -> Part2Input year day
-  part2 :: Part2Input year day -> Part2Output year day
+  type Output1 year day
+  type instance Output1 _ _ = Integer
+  part1 :: Input year day -> Output1 year day
+
+  type Output2 year day
+  type instance Output2 _ _ = Integer
+  part2 :: Input year day -> Output2 year day
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
