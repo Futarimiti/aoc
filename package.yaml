@@ -84,6 +84,8 @@ ghc-options:
   - -Wredundant-constraints
   - -Wmonomorphism-restriction
   - -Wno-unused-imports
+  - -Wno-orphans
+  - -Wno-unused-top-binds
 library:
   source-dirs:
     - src
