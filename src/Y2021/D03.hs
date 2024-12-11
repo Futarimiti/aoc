@@ -1,25 +1,17 @@
-module Y2021.D03 where
+module Y2021.D03 () where
 
 import Common
 
-type Bin = [Bool]
+instance AOC 2021 3 where
+  type Input 2021 3 = TypeError (Text "Solution to 2021/3 unimplemented")
+  parse :: [String] -> Input 2021 3
+  parse = undefined
 
-readBin :: String -> Bin
-readBin = map $ \case
-  '0' -> False
-  _ -> True
+  type Output1 2021 3 = Integer
+  part1 :: Input 2021 3 -> Output1 2021 3
+  part1 = undefined
 
-binToDec :: Bin -> Int
-binToDec = foldl' (\acc b -> acc * 2 + if b then 1 else 0) 0
-
-more1 :: [Bool] -> Bool
-more1 = uncurry ((>) @Integer) . foldl' (\(t, f) b -> if b then (t + 1, f) else (t, f + 1)) (0, 0)
-
-powerConsumption :: [Bin] -> Int
-powerConsumption report = binToDec gamma * binToDec epsilon
-  where (gamma, epsilon) = unzip $ map (\bs -> if more1 bs then (True, False) else (False, True)) report
-
-lifeSupportRating :: a -> Int
-lifeSupportRating _ = oxygen * co2
-  where oxygen = undefined
-        co2 = undefined
+  type Output2 2021 3 = Integer
+  part2 :: Input 2021 3 -> Output2 2021 3
+  part2 = undefined
+      

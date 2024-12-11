@@ -1,12 +1,25 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE DefaultSignatures #-}
+{-# LANGUAGE RequiredTypeArguments #-}
 
 -- | My custom prelude
 module Common
-  ( counts
+  (
+  -- * Running AOC
+    AOC (..)
+  , run
+  -- * Extra utilities
+  , counts
   , count
+  , mid
+  , every
+  , andM
+  , orM
+  , allM
+  , anyM
   -- * Re-exports
+  , module Data.String.Interpolate
   , module Data.Function
   , module Control.Monad
   , module Control.Applicative
@@ -22,16 +35,6 @@ module Common
   , module Data.Kind
   , module Data.Proxy
   , module Text.Printf
-  , andM
-  , orM
-  , allM
-  , anyM
-  , every
-  , i
-  , mid
-  , AOC (..)
-  , run1
-  , run2
   ) where
 
 import Data.Functor
@@ -70,28 +73,37 @@ class AOC year day where
   type instance Output2 _ _ = Integer
   part2 :: Input year day -> Output2 year day
 
-run1 :: forall (year :: Nat) (day :: Nat). (AOC year day, KnownNat year, KnownNat day) => IO (Output1 year day)
-run1 = do
-  inputStr <- getInputOn year day
-  let inp = parse @year @day (lines inputStr)
-  pure $ part1 @year @day inp
-  where
-    year = natVal (Proxy @year)
-    day = natVal (Proxy @day)
+type OutputOn :: Nat -> Nat -> Nat -> Type
+type family OutputOn year day part = output where
+  OutputOn    year day 1 = Output1 year day
+  OutputOn    year day 2 = Output2 year day
 
-run2 :: forall (year :: Nat) (day :: Nat). (AOC year day, KnownNat year, KnownNat day) => IO (Output2 year day)
-run2 = do
-  inputStr <- getInputOn year day
-  let inp = parse @year @day (lines inputStr)
-  pure $ part2 @year @day inp
-  where
-    year = natVal (Proxy @year)
-    day = natVal (Proxy @day)
+class AOC year day => RunAOC year day part where
+  run' :: IO (OutputOn year day part)
 
-getInputOn :: (MonadIO io) => Integer -> Integer -> io String
-getInputOn year day = liftIO $ do
+instance (AOC year day, KnownNat year, KnownNat day) => RunAOC year day 1 where
+  run' = part1 @year @day <$> getInput @year @day
+
+instance (AOC year day, KnownNat year, KnownNat day) => RunAOC year day 2 where
+  run' = part2 @year @day <$> getInput @year @day
+
+-- |
+-- >>> run 2021  1    2
+--         ^year ^day ^part
+run :: forall year day part
+    -> (RunAOC year day part)
+    => IO (OutputOn year day part)
+run y d p = run' @y @d @p
+
+getInput :: forall year day. (AOC year day, KnownNat year, KnownNat day)
+         => IO (Input year day)
+getInput = do
   path <- getDataFileName [i|#{year}/#{printf "%02d" day :: String}.txt|]
-  readFile path
+  inputStr <- readFile path
+  pure $ parse @year @day (lines inputStr)
+  where
+    year = natVal $ Proxy @year
+    day = natVal $ Proxy @day
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
@@ -121,6 +133,8 @@ andM :: Monad m => m Bool -> m Bool -> m Bool
 andM m1 m2 = m1 >>= \x -> if x then m2 else return False
 
 -- | Every @n@ consecutive elements
+--
+-- Maybe use @extend@ some day?
 every :: Int -> [a] -> [[a]]
 every n xs = mapMaybe (take' n) (tails xs)
   where take' :: Int -> [a] -> Maybe [a]
