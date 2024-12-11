@@ -61,17 +61,17 @@ getAntinodes :: forall m. MonadReader Antennae m
 getAntinodes strat = Map.map (uncurry strat <=< pairs) <$> ask
   where pairs ps = [(x, y) | (x:ys) <- L.tails ps, y <- ys]  -- unique pairs
 
-part1 :: IO ()
-part1 = do
-  (lines -> contents) <- input @String
-  let (antennae, cols, rows) = readAntennae contents
-      antinodes = getAntinodes (antinodes1 cols rows) antennae & Map.elems & foldr1 L.union
-  antinodes & length & print
-
-part2 :: IO ()
-part2 = do
-  (lines -> contents) <- input @String
-  let (antennae, cols, rows) = readAntennae contents
-      inBound (V2 x y) = and @[] [x >= 0, x < cols, y >= 0, y < rows]
-      antinodes = getAntinodes (antinodes2 cols rows) antennae & Map.map (L.filter inBound) & Map.elems & foldr1 L.union & L.nub
-  antinodes & length & print
+-- part1 :: IO ()
+-- part1 = do
+--   (lines -> contents) <- input @String
+--   let (antennae, cols, rows) = readAntennae contents
+--       antinodes = getAntinodes (antinodes1 cols rows) antennae & Map.elems & foldr1 L.union
+--   antinodes & length & print
+--
+-- part2 :: IO ()
+-- part2 = do
+--   (lines -> contents) <- input @String
+--   let (antennae, cols, rows) = readAntennae contents
+--       inBound (V2 x y) = and @[] [x >= 0, x < cols, y >= 0, y < rows]
+--       antinodes = getAntinodes (antinodes2 cols rows) antennae & Map.map (L.filter inBound) & Map.elems & foldr1 L.union & L.nub
+--   antinodes & length & print

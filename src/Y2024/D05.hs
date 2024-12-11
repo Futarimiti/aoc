@@ -80,17 +80,17 @@ update =
   -- safe to coerce to NonEmpty therefore
   fromList <$> sepBy1 uint (char ',')
 
-part1 :: IO ()
-part1 = do
-  contents <- input @String
-  [((rules, updates),"")] <- pure $ readP_to_S parse contents
-  validUpdates <- filterM (\up -> runNoLoggingT (runReaderT (validate up) rules)) updates
-  print @Int $ sum @[] $ mapMaybe (mid . toList) validUpdates
-
-part2 :: IO ()
-part2 = do
-  contents <- input @String
-  [((rules, updates),"")] <- pure $ readP_to_S parse contents
-  invalidUpdates <- filterM (\up -> not <$> runNoLoggingT (runReaderT (validate up) rules)) updates
-  sortedUpdateds <- traverse (\up -> runNoLoggingT (runReaderT (sort up) rules)) invalidUpdates
-  print @Int $ sum @[] $ mapMaybe (mid . toList) sortedUpdateds
+-- part1 :: IO ()
+-- part1 = do
+--   contents <- input @String
+--   [((rules, updates),"")] <- pure $ readP_to_S Y2024.D05.parse contents
+--   validUpdates <- filterM (\up -> runNoLoggingT (runReaderT (validate up) rules)) updates
+--   print @Int $ sum @[] $ mapMaybe (mid . toList) validUpdates
+--
+-- part2 :: IO ()
+-- part2 = do
+--   contents <- input @String
+--   [((rules, updates),"")] <- pure $ readP_to_S Y2024.D05.parse contents
+--   invalidUpdates <- filterM (\up -> not <$> runNoLoggingT (runReaderT (validate up) rules)) updates
+--   sortedUpdateds <- traverse (\up -> runNoLoggingT (runReaderT (sort up) rules)) invalidUpdates
+--   print @Int $ sum @[] $ mapMaybe (mid . toList) sortedUpdateds

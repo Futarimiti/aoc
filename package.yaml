@@ -71,7 +71,7 @@ default-extensions:
   - BlockArguments
 data-dir: resources/
 data-files:
-  - input.txt
+  - '**/*.txt'
 ghc-options:
   - -O2
   - -Wall

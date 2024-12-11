@@ -8,6 +8,12 @@ import Data.HashMap.Strict (HashMap)
 import Data.Hashable (Hashable)
 import qualified Data.HashMap.Strict as Map
 
+instance AOC 2024 11 where
+  type Input _ _ = [Integer]
+  parse = fmap read . words . head
+  part1 = evolve 25
+  part2 = evolve 75
+
 type Stone = Integer
 
 blink :: Stone -> [Stone]

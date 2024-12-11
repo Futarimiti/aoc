@@ -18,7 +18,31 @@ license:        WTFPL
 license-file:   LICENSE
 build-type:     Simple
 data-files:
-    input.txt
+    2024/01.txt
+    2024/02.txt
+    2024/03.txt
+    2024/04.txt
+    2024/05.txt
+    2024/06.txt
+    2024/07.txt
+    2024/08.txt
+    2024/09.txt
+    2024/10.txt
+    2024/11.txt
+    2024/12.txt
+    2024/13.txt
+    2024/14.txt
+    2024/15.txt
+    2024/16.txt
+    2024/17.txt
+    2024/18.txt
+    2024/19.txt
+    2024/20.txt
+    2024/21.txt
+    2024/22.txt
+    2024/23.txt
+    2024/24.txt
+    2024/25.txt
 data-dir:       resources/
 
 source-repository head

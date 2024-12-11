@@ -4,8 +4,7 @@
 
 -- | My custom prelude
 module Common
-  ( input
-  , counts
+  ( counts
   , count
   -- * Re-exports
   , module Data.Function
@@ -21,6 +20,8 @@ module Common
   , module GHC.TypeLits
   , module Numeric.Natural
   , module Data.Kind
+  , module Data.Proxy
+  , module Text.Printf
   , andM
   , orM
   , allM
@@ -29,6 +30,8 @@ module Common
   , i
   , mid
   , AOC (..)
+  , run1
+  , run2
   ) where
 
 import Data.Functor
@@ -51,6 +54,8 @@ import Data.Traversable
 import Numeric.Natural
 import GHC.TypeLits
 import Data.Kind
+import Data.Proxy
+import Text.Printf
 
 type AOC :: Nat -> Nat -> Constraint
 class AOC year day where
@@ -65,16 +70,32 @@ class AOC year day where
   type instance Output2 _ _ = Integer
   part2 :: Input year day -> Output2 year day
 
+run1 :: forall (year :: Nat) (day :: Nat). (AOC year day, KnownNat year, KnownNat day) => IO (Output1 year day)
+run1 = do
+  inputStr <- getInputOn year day
+  let inp = parse @year @day (lines inputStr)
+  pure $ part1 @year @day inp
+  where
+    year = natVal (Proxy @year)
+    day = natVal (Proxy @day)
+
+run2 :: forall (year :: Nat) (day :: Nat). (AOC year day, KnownNat year, KnownNat day) => IO (Output2 year day)
+run2 = do
+  inputStr <- getInputOn year day
+  let inp = parse @year @day (lines inputStr)
+  pure $ part2 @year @day inp
+  where
+    year = natVal (Proxy @year)
+    day = natVal (Proxy @day)
+
+getInputOn :: (MonadIO io) => Integer -> Integer -> io String
+getInputOn year day = liftIO $ do
+  path <- getDataFileName [i|#{year}/#{printf "%02d" day :: String}.txt|]
+  readFile path
+
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
 -- mode = head . maximumBy (comparing length) . group . sort
-
--- | Gets the AoC input file.
-input :: (IsString str, MonadIO m) => m str
-input = liftIO $ do
-  path <- getDataFileName "input.txt"
-  contents <- readFile path
-  pure (fromString contents)
 
 -- | Count occurrences of elements within a @'Foldable'@,
 -- summarising in a @Map@.
