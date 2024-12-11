@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
-module Y2024.D01 where
+module Y2024.D01 () where
 
 import Common
 import Data.List (sort, transpose)

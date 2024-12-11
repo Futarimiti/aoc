@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
-module Y2024.D04 (search, searchX) where
+module Y2024.D04 () where
 
 import Common
 import MTL

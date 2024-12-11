@@ -1,4 +1,4 @@
-module Y2024.D05 where
+module Y2024.D05 () where
 
 import Common
 import MTL

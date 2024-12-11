@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-unused-do-bind #-}
 
-module Y2024.D03 (execute, FSM (..)) where
+module Y2024.D03 () where
 
 import Common
 import MTL

@@ -1,4 +1,4 @@
-module Y2024.D11 where
+module Y2024.D11 () where
 
 import Common
 import Memoize

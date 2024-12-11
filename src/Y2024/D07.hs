@@ -1,7 +1,7 @@
 {-# LANGUAGE NoOverloadedLists #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 
-module Y2024.D07 where
+module Y2024.D07 () where
 
 import Common
 import NE

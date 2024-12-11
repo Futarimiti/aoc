@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 
-module Y2024.D09 where
+module Y2024.D09 () where
 
 import Common
 import Numeric.Natural

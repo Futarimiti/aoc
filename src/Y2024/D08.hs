@@ -1,4 +1,4 @@
-module Y2024.D08 where
+module Y2024.D08 () where
 
 import Common
 import Board
