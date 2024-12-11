@@ -82,6 +82,7 @@ library
       Board
       Common
       L
+      Memoize
       MTL
       NE
       Read

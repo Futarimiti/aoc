@@ -12,6 +12,7 @@ import Debug.Trace
 import Debug.Trace.Dbg
 import qualified Data.HashSet as Set
 import Data.HashSet (HashSet)
+import Memoize
 
 type Topography = HashMap (V2 Int) Nat
 
@@ -22,25 +23,6 @@ readTopography s = Map.fromList $ do
   (x, c) <- zip [0..] cs
   let nat = fromIntegral $ digitToInt c
   pure (V2 x y, nat)
-
-type Memoized k v m = MonadAccum (HashMap k v) m
-
-evalMemoizedT :: (Monad m, Monoid w) => AccumT w m a -> m a
-evalMemoizedT m = evalAccumT m mempty
-
-evalMemoized :: (Monoid w) => Accum w a -> a
-evalMemoized m = evalAccum m mempty
-
--- | Recommend usage (need BlockArguments): @v <- k & retrieveOrM do ...@
-retrieveOrM :: (Memoized k v m, Hashable k) => m v -> k -> m v
-retrieveOrM def k = do
-  mv <- looks (Map.lookup k)
-  case mv of
-    Just v  -> pure v
-    Nothing -> do
-      v <- def
-      add (Map.singleton k v)
-      def
 
 trailheads :: (MonadReader Topography m) => m [V2 Int]
 trailheads = Map.keys . Map.filter (== 0) <$> ask
