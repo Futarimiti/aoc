@@ -4,7 +4,7 @@ module Y2024.D01 () where
 
 import Common
 import Data.List (sort, transpose)
-import Data.Map ((!))
+import Data.Map ((!?))
 
 instance AOC 2024 1 where
   type Input 2024 1 = ([Int], [Int])
@@ -18,7 +18,7 @@ instance AOC 2024 1 where
 
   type Output2 _ _ = Int
   part2 :: Input 2024 1 -> Output2 2024 1
-  part2 = undefined
+  part2 (xs, ys) = similarity xs ys
 
 
 getLists :: String -> ([Int], [Int])
@@ -32,4 +32,6 @@ totalDist xs ys = sum $ (zipWith diff `on` sort) xs ys
 similarity :: [Int] -> [Int] -> Int
 similarity xs ys = sum $ calcSim <$> xs
   where calcSim x = x * occurence
-          where occurence = counts ys ! x
+          where occurence = case counts ys !? x of
+                              Just n  -> n
+                              Nothing -> 0

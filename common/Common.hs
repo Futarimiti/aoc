@@ -35,8 +35,10 @@ module Common
   , module Data.Kind
   , module Data.Proxy
   , module Text.Printf
+  , module Debug.Trace
   ) where
 
+import Debug.Trace
 import Data.Functor
 import Control.Monad.IO.Class
 import Data.String
@@ -59,11 +61,30 @@ import GHC.TypeLits
 import Data.Kind
 import Data.Proxy
 import Text.Printf
+import Text.ParserCombinators.ReadP (ReadP)
+import qualified Text.ParserCombinators.ReadP as P
 
 type AOC :: Nat -> Nat -> Constraint
 class AOC year day where
   type Input year day
   parse :: [String] -> Input year day
+  default parse :: Show (Input year day) => [String] -> Input year day
+  parse lns = case find good results of
+    Just (r, "") -> r
+    _ -> error [i|no parse, here's parse result: #{results}|]
+    where
+      p = do
+        ret <- readp @year @day
+        P.optional newline
+        P.eof
+        pure ret
+      results = P.readP_to_S p (unlines lns)
+      good (_, "") = True
+      good _ = False
+      newline = P.char '\n'
+
+  readp :: ReadP (Input year day)
+  readp = parse @year @day . lines <$> P.look
 
   type Output1 year day
   type instance Output1 _ _ = Integer
@@ -72,6 +93,8 @@ class AOC year day where
   type Output2 year day
   type instance Output2 _ _ = Integer
   part2 :: Input year day -> Output2 year day
+
+  {-# MINIMAL (parse | readp), part1, part2 #-}
 
 type OutputOn :: Nat -> Nat -> Nat -> Type
 type family OutputOn year day part = output where

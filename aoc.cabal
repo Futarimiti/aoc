@@ -394,6 +394,7 @@ library
     , monad-logger
     , mtl
     , pretty-show
+    , split
     , string-interpolate
     , template-haskell
     , text
