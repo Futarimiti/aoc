@@ -4,6 +4,12 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     stack
-    haskellPackages.haskell-language-server
+    (haskell-language-server.override {
+      supportedGhcVersions = [
+        # "966"
+        # "910"
+        "9101"
+      ];
+    })
   ];
 }
