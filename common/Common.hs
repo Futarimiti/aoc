@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
+{-# LANGUAGE UndecidableInstances #-}
 
+-- | My custom prelude
 module Common
   ( input
   , counts
@@ -17,6 +19,7 @@ module Common
   , module Witherable
   , module GHC.TypeLits
   , module Numeric.Natural
+  , module Data.Kind
   , andM
   , orM
   , allM
@@ -24,6 +27,7 @@ module Common
   , every
   , i
   , mid
+  , AOC (..)
   ) where
 
 import Data.Functor
@@ -45,6 +49,22 @@ import Data.String.Interpolate
 import Data.Traversable
 import Numeric.Natural
 import GHC.TypeLits
+import Data.Kind
+
+type AOC :: Nat -> Nat -> Constraint
+class AOC year day where
+  type Part1Input year day
+  type Part1Output year day
+  type instance Part1Output _ _ = Integer
+  parse1 :: [String] -> Part1Input year day
+  part1 :: Part1Input year day -> Part1Output year day
+
+  type Part2Input year day
+  type instance Part2Input year day = Part1Input year day
+  type Part2Output year day
+  type instance Part2Output _ _ = Integer
+  parse2 :: [String] -> Part2Input year day
+  part2 :: Part2Input year day -> Part2Output year day
 
 -- -- | Mode value, in the statistical sense
 -- mode :: Ord a => [a] -> a
