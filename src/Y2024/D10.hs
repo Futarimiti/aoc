@@ -42,7 +42,7 @@ distribute = for_ ([9,8..1] :: [Nat]) $ \n -> do
       myHeight <- asks (Map.! coords)
       let neighbouringCoords = ($ coords) <$>
             [_x %~ (+1), _y %~ (+1), _x %~ subtract 1, _y %~ subtract 1]
-      neighbouringCoords & filterA \c -> asks (Map.lookup c) <&> \case
+      neighbouringCoords & filterM \c -> asks (Map.lookup c) <&> \case
         Just h | succ h == myHeight -> True
         _                           -> False
 
@@ -65,7 +65,7 @@ score' coords = coords & retrieveOrM do
       myHeight <- asks (Map.! coords)
       let neighbouringCoords = ($ coords) <$>
             [_x %~ (+1), _y %~ (+1), _x %~ subtract 1, _y %~ subtract 1]
-      neighbouringCoords & filterA \c -> asks (Map.lookup c) <&> \case
+      neighbouringCoords & filterM \c -> asks (Map.lookup c) <&> \case
         Just h | h == succ myHeight -> True
         _                           -> False
 
