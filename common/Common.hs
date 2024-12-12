@@ -36,8 +36,10 @@ module Common
   , module Data.Proxy
   , module Text.Printf
   , module Debug.Trace
+  , module Data.Ord
   ) where
 
+import Data.Ord
 import Debug.Trace
 import Data.Functor
 import Control.Monad.IO.Class
@@ -159,7 +161,7 @@ andM m1 m2 = m1 >>= \x -> if x then m2 else return False
 --
 -- Maybe use @extend@ some day?
 every :: Int -> [a] -> [[a]]
-every n xs = mapMaybe (take' n) (tails xs)
+every n xs = take' n <$?> tails xs
   where take' :: Int -> [a] -> Maybe [a]
         take' 0 _      = Just []
         take' _ []     = Nothing
