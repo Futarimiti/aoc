@@ -2,7 +2,6 @@ module Y2024.D10 () where
 
 import Common
 import MTL
-import Board
 import GHC.TypeNats
 import Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as Map
@@ -13,6 +12,7 @@ import Debug.Trace.Dbg
 import qualified Data.HashSet as Set
 import Data.HashSet (HashSet)
 import Memoize
+import Linear.V2
 
 type Topography = HashMap (V2 Int) Nat
 
