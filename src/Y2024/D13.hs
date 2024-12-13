@@ -15,8 +15,7 @@ makeLenses ''ClawMachine
 instance AOC 2024 13 where
   type Input 2024 13 = [ClawMachine]
   readp :: ReadP (Input 2024 13)
-  readp = do
-    sepBy1 clawMachine (string "\n\n")
+  readp = sepBy1 clawMachine (string "\n\n")
     where
       clawMachine :: ReadP ClawMachine
       clawMachine = do
