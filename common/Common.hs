@@ -13,8 +13,6 @@ module Common
   , counts
   , count
   , countA
-  , mid
-  , every
   , andM
   , orM
   , allM
@@ -25,6 +23,7 @@ module Common
   , module Control.Monad
   , module Control.Applicative
   , module Data.Functor
+  , module Data.Functor.Compose
   , module Control.Lens
   , module Control.Monad.IO.Class
   , module Data.Foldable
@@ -40,7 +39,7 @@ module Common
   , module Debug.Trace.Dbg
   , module Data.Ord
   ) where
-
+import Data.Functor.Compose
 import Debug.Trace.Dbg
 import Data.Ord
 import Debug.Trace
@@ -169,23 +168,3 @@ orM m1 m2 = m1 >>= \x -> if x then return True else m2
 -- | Monadic version of and
 andM :: Monad m => m Bool -> m Bool -> m Bool
 andM m1 m2 = m1 >>= \x -> if x then m2 else return False
-
--- | Every @n@ consecutive elements
---
--- Maybe use @extend@ some day?
-every :: Int -> [a] -> [[a]]
-every n xs = take' n <$?> tails xs
-  where take' :: Int -> [a] -> Maybe [a]
-        take' 0 _      = Just []
-        take' _ []     = Nothing
-        take' n (x:xs) = (x:) <$> take' (n - 1) xs
-
--- | Find the element in the middle of a list.
--- If the list contains even number of elements, return @Nothing@.
--- Hangs for infinite list
-mid :: [a] -> Maybe a
-mid = join go
-  where go _ []            = Nothing
-        go (x:_) [_]       = Just x
-        go (_:xs) (_:_:ys) = go xs ys
-        go _ _             = Nothing

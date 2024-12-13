@@ -4,6 +4,8 @@
 module L
   ( module Data.List
   , sortByM
+  , mid
+  , every
   ) where
 
 import Data.List
@@ -46,3 +48,23 @@ sortByM cmp = mergeAll <=< sequences
         _  -> (a :) <$> merge as' bs
     merge [] bs = return bs
     merge as [] = return as
+
+-- | Find the element in the middle of a list.
+-- If the list contains even number of elements, return @Nothing@.
+-- Hangs for infinite list
+mid :: [a] -> Maybe a
+mid = join go
+  where go _ []            = Nothing
+        go (x:_) [_]       = Just x
+        go (_:xs) (_:_:ys) = go xs ys
+        go _ _             = Nothing
+
+-- | Every @n@ consecutive elements
+--
+-- Maybe use @extend@ some day?
+every :: Int -> [a] -> [[a]]
+every n xs = take' n <$?> tails xs
+  where take' :: Int -> [a] -> Maybe [a]
+        take' 0 _        = Just []
+        take' _ []       = Nothing
+        take' n' (x:xs') = (x:) <$> take' (n' - 1) xs'

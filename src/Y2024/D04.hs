@@ -2,7 +2,7 @@ module Y2024.D04 () where
 
 import Common
 
-import L (transpose, isPrefixOf, tails)
+import L (transpose, isPrefixOf, tails, every)
 
 instance AOC 2024 4 where
   type Input 2024 4 = [[Char]]

@@ -8,6 +8,7 @@ import Data.List.NonEmpty (NonEmpty(..))
 import GHC.IsList (fromList)
 import qualified NE
 import Data.List.Split (splitOn)
+import qualified L
 
 type Page = Int
 
@@ -77,12 +78,12 @@ instance AOC 2024 5 where
   part1 :: Input 2024 5 -> Output1 2024 5
   part1 (rules, updates) = sum $ let
    Just validUpdates = filterM (\up -> runReaderT (validate up) rules) updates
-   in mid . toList <$?> validUpdates
+   in L.mid . toList <$?> validUpdates
 
   type Output2 2024 5 = Int
   part2 :: Input 2024 5 -> Output2 2024 5
   part2 (rules, updates) = sum $ let
     Just invalidUpdates = filterM (\up -> not <$> runReaderT (validate up) rules) updates
     Just sortedUpdateds = traverse (\up -> runReaderT (sort up) rules) invalidUpdates
-    in mid . toList <$?> sortedUpdateds
+    in L.mid . toList <$?> sortedUpdateds
 
