@@ -94,12 +94,18 @@ class AOC year day where
   type Output1 year day
   type instance Output1 _ _ = Integer
   part1 :: Input year day -> Output1 year day
+  part1 = undefined
+  part1IO :: Input year day -> IO (Output1 year day)
+  part1IO = pure . part1 @year @day
 
   type Output2 year day
   type instance Output2 _ _ = Integer
   part2 :: Input year day -> Output2 year day
+  part2 = undefined
+  part2IO :: Input year day -> IO (Output2 year day)
+  part2IO = pure . part2 @year @day
 
-  {-# MINIMAL (parse | readp), part1, part2 #-}
+  {-# MINIMAL (parse | readp), (part1 | part1IO), (part2 | part2IO) #-}
 
 type OutputOn :: Nat -> Nat -> Nat -> Type
 type family OutputOn year day part = output where
@@ -110,10 +116,10 @@ class AOC year day => RunAOC year day part where
   run' :: IO (OutputOn year day part)
 
 instance (AOC year day, KnownNat year, KnownNat day) => RunAOC year day 1 where
-  run' = part1 @year @day <$> getInput @year @day
+  run' = part1IO @year @day =<< getInput @year @day
 
 instance (AOC year day, KnownNat year, KnownNat day) => RunAOC year day 2 where
-  run' = part2 @year @day <$> getInput @year @day
+  run' = part2IO @year @day =<< getInput @year @day
 
 -- |
 -- >>> run 2021  1    2
