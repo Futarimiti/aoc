@@ -326,7 +326,7 @@ library
       Y2024.D23
       Y2024.D24
       Y2024.D25
-      Board
+      Algo
       Common
       L
       Memoize
@@ -393,7 +393,9 @@ library
     , matrix
     , monad-logger
     , mtl
+    , multiset
     , pretty-show
+    , search-algorithms
     , split
     , string-interpolate
     , template-haskell

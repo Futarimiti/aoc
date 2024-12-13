@@ -11,18 +11,9 @@ import Data.MultiSet (MultiSet)
 import qualified Data.MultiSet as MultiSet
 import qualified L
 import Algo
-import Debug.Trace.Dbg
 import MTL
-
--- | Consecutive block of plants
---
--- Region identity not matter in part 1, might be useful in part 2
-data Region = Region
-  { _name   :: Char
-  , _coords :: (HashSet (V2 Int))
-  } deriving (Show, Eq, Ord)
-
-makeLenses ''Region
+import Data.Hashable (Hashable)
+import GHC.Generics (Generic)
 
 instance AOC 2024 12 where
   type Input 2024 12 = HashMap (V2 Int) Char
@@ -34,16 +25,18 @@ instance AOC 2024 12 where
 
   type Output1 2024 12 = Nat
   part1 :: Input 2024 12 -> Output1 2024 12
-  part1 = sum . MultiSet.map price . aggregate
+  part1 = sum . MultiSet.map (liftA2 (*) area perimeter) . aggregate
 
   type Output2 2024 12 = Nat
   part2 :: Input 2024 12 -> Output2 2024 12
-  part2 = sum . MultiSet.map price' . aggregate
+  part2 = sum . MultiSet.map (liftA2 (*) area walls) . aggregate
+
+-- | Consecutive block of plants
+type Region = HashSet (V2 Int)
 
 aggregate :: HashMap (V2 Int) Char -> MultiSet Region
-aggregate = trace "aggregate" $ MultiSet.fromList . L.unfoldr \board -> do
+aggregate = MultiSet.fromList . L.unfoldr \board -> do
   (start, label) <- lookupMin board
-  [dbgM|label|]
   let
     step :: V2 Int -> [V2 Int]
     step i' = do
@@ -51,40 +44,49 @@ aggregate = trace "aggregate" $ MultiSet.fromList . L.unfoldr \board -> do
       guard $ board !? neighbour == Just label
       pure neighbour
     myCoords = floodFill step start
-  [dbgM|myCoords|]
-  pure (Region label myCoords, HashMap.filterWithKey (\k _ -> k `notElem` myCoords) board)
+  pure (myCoords, HashMap.filterWithKey (\k _ -> k `notElem` myCoords) board)
   where
     lookupMin :: Ord k => HashMap k v -> Maybe (k, v)
     lookupMin m
-      | HashMap.null m = Nothing
+      | null m = Nothing
       | otherwise = pure . minimumBy (comparing fst) . HashMap.toList $ m
     neighbouringCoords :: V2 Int -> [V2 Int]
-    neighbouringCoords = (<$> [_x +~ 1, _x -~ 1, _y +~ 1, _y -~ 1]) . (&)
+    neighbouringCoords = (<$> [l,r,u,d]) . (&)
 
 area :: Region -> Nat
-area = traceShowId . trace "area" . fromIntegral . length . view coords
+area = fromIntegral . length
 
 perimeter :: forall m. MonadReader Region m => m Nat
 perimeter = do
-  myCoords <- view coords
+  myCoords <- ask
   exposed <- traverse exposedSides (HashSet.toList myCoords)  -- HashSet not traversable
   pure $ sum exposed
   where
     exposedSides :: V2 Int -> m Nat
     exposedSides coord = do
-      let neighbouringCoords = ($ coord) <$> [_x +~ 1, _x -~ 1, _y +~ 1, _y -~ 1]
-      neighbours <- filterA ((<$> view coords) . elem) neighbouringCoords
+      let neighbouringCoords = ($ coord) <$> [l,r,u,d]
+      neighbours <- filterA ((<$> ask) . elem) neighbouringCoords
       pure $ 4 - L.genericLength neighbours
 
-price :: Region -> Nat
-price region = [dbg|area region|] * [dbg|perimeter region|]
+walls :: forall m. MonadReader Region m => m Nat
+walls = do
+  (HashSet.toList -> myCoords) <- ask
+  -- | expect overlaps
+  ul <- countA (corner l u) myCoords
+  ur <- countA (corner u r) myCoords
+  dl <- countA (corner d l) myCoords
+  dr <- countA (corner r d) myCoords
+  pure $ sum @[] [ul, ur, dl, dr]
+  where
+    corner :: (V2 Int -> V2 Int) -> (V2 Int -> V2 Int) -> V2 Int -> m Bool
+    corner dir1 dir2 x = do
+      myCoords <- ask
+      let open dir = dir x `notElem` myCoords
+      pure $ open dir1 && (open dir2 || not (open (dir1 . dir2)))
 
-price' :: Region -> Nat
-price' region = [dbg|area region|] * [dbg|walls region|]
-
-walls :: Region -> Nat
-walls = corners
-
-corners :: Region -> Nat
-corners = undefined
-
+-- movements
+l, r, u, d :: V2 Int -> V2 Int
+l = _x -~ 1
+r = _x +~ 1
+u = _y -~ 1
+d = _y +~ 1

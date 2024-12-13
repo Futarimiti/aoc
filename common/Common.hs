@@ -12,6 +12,7 @@ module Common
   -- * Extra utilities
   , counts
   , count
+  , countA
   , mid
   , every
   , andM
@@ -36,9 +37,11 @@ module Common
   , module Data.Proxy
   , module Text.Printf
   , module Debug.Trace
+  , module Debug.Trace.Dbg
   , module Data.Ord
   ) where
 
+import Debug.Trace.Dbg
 import Data.Ord
 import Debug.Trace
 import Data.Functor
@@ -142,6 +145,10 @@ counts = foldr (\x -> Map.insertWith (+) x 1) mempty
 -- | Count occurrences of elements within a @'Foldable'@ and @'MonadPlus'@.
 count :: (Num n, MonadPlus t, Foldable t) => (a -> Bool) -> t a -> n
 count p = fromIntegral . length . mfilter p
+
+-- | Monadic generalisation of @count@
+countA :: (Num n, Witherable t, Applicative m) => (a -> m Bool) -> t a -> m n
+countA p = fmap (fromIntegral . length) . filterA p
 
 anyM :: (Monad m, Foldable f) => (a -> m Bool) -> f a -> m Bool
 anyM f = foldr (orM . f) (pure False)
