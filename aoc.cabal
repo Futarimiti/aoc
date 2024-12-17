@@ -327,6 +327,7 @@ library
       Y2024.D24
       Y2024.D25
       Algo
+      Board
       Common
       L
       Memoize
@@ -383,6 +384,7 @@ library
     , bytestring
     , comonad
     , containers
+    , data-default
     , dbg
     , directory
     , exceptions
