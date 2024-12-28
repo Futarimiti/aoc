@@ -12,6 +12,10 @@ description: Please see the README on GitHub at <https://github.com/Futarimiti/a
 dependencies:
   - base >= 4.7 && < 5
   - data-default
+  - logict
+  - list-t
+  - dlist
+  - monad-dijkstra
   - search-algorithms
   - multiset
   - split

@@ -6,6 +6,7 @@ module L
   , sortByM
   , mid
   , every
+  , isPalindrome
   ) where
 
 import Data.List
@@ -68,3 +69,10 @@ every n xs = take' n <$?> tails xs
         take' 0 _        = Just []
         take' _ []       = Nothing
         take' n' (x:xs') = (x:) <$> take' (n' - 1) xs'
+
+isPalindrome :: Eq a => [a] -> Bool
+isPalindrome str = step str 0
+  where step xs idx
+          | idx >= (length xs `div` 2) = True
+          | xs !! idx /= xs !! (length xs - idx - 1) = False
+          | otherwise = step xs (idx + 1)

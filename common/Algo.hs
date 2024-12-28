@@ -1,5 +1,7 @@
 module Algo
   ( floodFill
+  , module Algorithm.Search
+  , module Control.Monad.Search
   ) where
 
 import Common
@@ -7,12 +9,14 @@ import Data.HashSet (HashSet)
 import MTL
 import Data.Hashable (Hashable)
 import qualified Data.HashSet as HashSet
+import Algorithm.Search
+import Control.Monad.Search
 
 floodFill :: (Hashable state, Witherable f)
           => (state -> f state)  -- | Generate next states
           -> state               -- | Init state
           -> HashSet state
-floodFill = (flip execAccum mempty .) . go
+floodFill gen = flip execAccum mempty . go gen
   where
     go :: (Hashable state, Witherable f) => (state -> f state) -> state -> Accum (HashSet state) ()
     go step start = do

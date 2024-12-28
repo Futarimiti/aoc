@@ -387,12 +387,16 @@ library
     , data-default
     , dbg
     , directory
+    , dlist
     , exceptions
     , filepath
     , hashable
     , lens
     , linear
+    , list-t
+    , logict
     , matrix
+    , monad-dijkstra
     , monad-logger
     , mtl
     , multiset

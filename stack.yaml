@@ -41,6 +41,7 @@ packages:
 extra-deps:
   - github: Futarimiti/dbg
     commit: 280930258b930128461a54beed51274b5c5d0bc7
+  - monad-dijkstra-0.1.1.5@sha256:5da72b0c58e619ca7856f4535e5a63cbbf61f55c043cde46fb0bc6d6f0cf93f4,1776
 # Override default flag values for project packages and extra-deps
 # flags: {}
 

@@ -15,6 +15,13 @@ packages:
     version: 0.1.0.0
   original:
     url: https://github.com/Futarimiti/dbg/archive/280930258b930128461a54beed51274b5c5d0bc7.tar.gz
+- completed:
+    hackage: monad-dijkstra-0.1.1.5@sha256:5da72b0c58e619ca7856f4535e5a63cbbf61f55c043cde46fb0bc6d6f0cf93f4,1776
+    pantry-tree:
+      sha256: b2a9e30ad0854ec4cd9ced199f6d90bcd80b11dddb1a13c95c8a669377ce91a8
+      size: 434
+  original:
+    hackage: monad-dijkstra-0.1.1.5@sha256:5da72b0c58e619ca7856f4535e5a63cbbf61f55c043cde46fb0bc6d6f0cf93f4,1776
 snapshots:
 - completed:
     sha256: 176e8e87a19f7f3788415e5c390cdf2c24ce5eac756dbb1dec0d306168a2bc87
