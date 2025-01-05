@@ -24,7 +24,7 @@ packages:
     hackage: monad-dijkstra-0.1.1.5@sha256:5da72b0c58e619ca7856f4535e5a63cbbf61f55c043cde46fb0bc6d6f0cf93f4,1776
 snapshots:
 - completed:
-    sha256: 176e8e87a19f7f3788415e5c390cdf2c24ce5eac756dbb1dec0d306168a2bc87
-    size: 602620
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2024/12/11.yaml
-  original: nightly-2024-12-11
+    sha256: 636d72b3fc8b9c28199812f093ed00dad86d7049bf25fb322362ffae3221f3d2
+    size: 620917
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2025/1/4.yaml
+  original: nightly-2025-01-04
