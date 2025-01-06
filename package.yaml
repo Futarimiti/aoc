@@ -43,6 +43,7 @@ dependencies:
   - hashable
   - comonad
 default-extensions:
+  - ImportQualifiedPost
   - ApplicativeDo
   - TemplateHaskell
   - QuasiQuotes
