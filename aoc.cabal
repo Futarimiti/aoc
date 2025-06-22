@@ -344,6 +344,7 @@ library
       common
       meta
   default-extensions:
+      ImportQualifiedPost
       ApplicativeDo
       TemplateHaskell
       QuasiQuotes
