@@ -1,72 +1,70 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
+{-# LANGUAGE DefaultSignatures    #-}
 {-# LANGUAGE UndecidableInstances #-}
-{-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE RequiredTypeArguments #-}
 
 -- | My custom prelude
 module Common
-  (
-  -- * Running AOC
+  ( -- * Running AOC
     AOC (..)
   , run
-  -- * Extra utilities
-  , counts
+    -- * Extra utilities
+  , allM
+  , andM
+  , anyM
   , count
   , countA
-  , andM
+  , counts
   , orM
-  , allM
-  , anyM
-  -- * Re-exports
-  , module Data.String.Interpolate
-  , module Data.Function
-  , module Control.Monad
+    -- * Re-exports
   , module Control.Applicative
-  , module Data.Functor
-  , module Data.Functor.Compose
   , module Control.Lens
+  , module Control.Monad
   , module Control.Monad.IO.Class
   , module Data.Foldable
-  , module Data.Maybe
-  , module Data.Traversable
-  , module Witherable
-  , module GHC.TypeLits
-  , module Numeric.Natural
+  , module Data.Function
+  , module Data.Functor
+  , module Data.Functor.Compose
   , module Data.Kind
+  , module Data.Maybe
+  , module Data.Ord
   , module Data.Proxy
-  , module Text.Printf
+  , module Data.String.Interpolate
+  , module Data.Traversable
   , module Debug.Trace
   , module Debug.Trace.Dbg
-  , module Data.Ord
+  , module GHC.TypeLits
+  , module Numeric.Natural
+  , module Text.Printf
+  , module Witherable
   ) where
-import Data.Functor.Compose
-import Debug.Trace.Dbg
-import Data.Ord
-import Debug.Trace
-import Data.Functor
-import Control.Monad.IO.Class
-import Data.String
-import Paths_aoc
-import Data.Function
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Data.List (group, sort, tails)
-import Control.Monad
 import Control.Applicative
 import Control.Lens
+import Control.Monad
+import Control.Monad.IO.Class
 import Data.Foldable
+import Data.Function
+import Data.Functor
+import Data.Functor.Compose
+import Data.Kind
+import Data.List                    (group, sort, tails)
+import Data.Map                     (Map)
+import Data.Map                     qualified as Map
+import Data.Maybe                   hiding (catMaybes, mapMaybe)
 import Data.Ord
-import Data.Maybe hiding (catMaybes, mapMaybe)
-import Witherable hiding (filter)
+import Data.Proxy
+import Data.String
 import Data.String.Interpolate
 import Data.Traversable
-import Numeric.Natural
+import Debug.Trace
+import Debug.Trace.Dbg
 import GHC.TypeLits
-import Data.Kind
-import Data.Proxy
-import Text.Printf
+import Numeric.Natural
+import Paths_aoc
+import Text.ParserCombinators.ReadP qualified as P
 import Text.ParserCombinators.ReadP (ReadP)
-import qualified Text.ParserCombinators.ReadP as P
+import Text.Printf
+import Witherable                   hiding (filter)
 
 type AOC :: Nat -> Nat -> Constraint
 class AOC year day where
@@ -75,7 +73,7 @@ class AOC year day where
   default parse :: Show (Input year day) => [String] -> Input year day
   parse lns = case find good results of
     Just (r, "") -> r
-    _ -> error [i|no parse, here's parse result: #{results}|]
+    _            -> error [i|no parse, here's parse result: #{results}|]
     where
       p = do
         ret <- readp @year @day
@@ -84,7 +82,7 @@ class AOC year day where
         pure ret
       results = P.readP_to_S p (unlines lns)
       good (_, "") = True
-      good _ = False
+      good _       = False
       newline = P.char '\n'
 
   readp :: ReadP (Input year day)
